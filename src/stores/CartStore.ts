@@ -7,9 +7,10 @@ export const useCartStore = defineStore("CartStore", {
     };
   },
   getters: {
-    count: (state) => {
-      return state.items.reduce((p, item) => item.count + p, 0);
-    },
+    count: (state) =>
+      state.items.reduce((prev, current) => {
+        return current.count + prev;
+      }, 0),
     isEmpty(): boolean {
       return this.count === 0;
     },
