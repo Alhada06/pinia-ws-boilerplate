@@ -2,8 +2,11 @@
 // imports
 import { ref } from "vue";
 import CartItem from "./CartItem.vue";
-import products from "@/data/products.json";
-import cartItems from "@/data/cart.json";
+import { useProductStore } from "@/stores/ProductStore";
+import { useCartStore } from "@/stores/CartStore";
+import { storeToRefs } from "pinia";
+const { products } = storeToRefs(useProductStore());
+const { items: cartItems } = storeToRefs(useCartStore());
 
 // data
 const active = ref(false);
@@ -13,7 +16,7 @@ const active = ref(false);
     <!-- Icon that always shows -->
     <span class="cursor-pointer" @click="active = true">
       <fa icon="shopping-cart" size="lg" class="text-gray-700" />
-      <div class="cart-count absolute">10</div>
+      <div class="absolute cart-count">10</div>
     </span>
     <!-- Modal Overlay only shows when cart is clicked on -->
     <AppModalOverlay :active="active" @close="active = false">
@@ -21,17 +24,18 @@ const active = ref(false);
         <ul class="items-in-cart">
           <CartItem
             v-for="item in cartItems"
+            :key="item.id"
             :product="products.find((p) => item.id === p.id)"
             :count="item.count"
             @updateCount=""
             @clear=""
           />
         </ul>
-        <div class="flex justify-end text-2xl mb-5">
+        <div class="flex justify-end mb-5 text-2xl">
           Total: <strong>$40</strong>
         </div>
         <div class="flex justify-end">
-          <AppButton class="secondary mr-2">Clear Cart</AppButton>
+          <AppButton class="mr-2 secondary">Clear Cart</AppButton>
           <AppButton class="primary">Checkout</AppButton>
         </div>
       </div>
