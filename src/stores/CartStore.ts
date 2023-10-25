@@ -1,8 +1,10 @@
 import { defineStore, acceptHMRUpdate } from "pinia";
-
+import cartItems from "@/data/cart.json";
 export const useCartStore = defineStore("CartStore", {
   state: () => {
-    return {};
+    return {
+      items: cartItems,
+    };
   },
   getters: {},
   actions: {},
