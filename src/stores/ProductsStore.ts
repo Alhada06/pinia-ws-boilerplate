@@ -8,7 +8,12 @@ export const useProductsStore = defineStore("ProductsStore", {
       products: [] as Product[],
     };
   },
-  getters: {},
+  getters: {
+    productById: (state) => {
+      return (productId: string) =>
+        state.products.find((product) => product.id === productId);
+    },
+  },
   actions: {
     async fill() {
       const res = await fetch("/products.json");

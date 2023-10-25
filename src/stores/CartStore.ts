@@ -1,6 +1,7 @@
 import type { CartItem } from "@/types";
 import { defineStore, acceptHMRUpdate } from "pinia";
 // import cartItems from "@/data/cart.json";
+import { useProductsStore } from "@/stores/ProductsStore";
 export const useCartStore = defineStore("CartStore", {
   state: () => {
     return {
@@ -13,6 +14,13 @@ export const useCartStore = defineStore("CartStore", {
     },
     isEmpty(): boolean {
       return this.count === 0;
+    },
+    total: (state) => {
+      const productsStore = useProductsStore();
+      return state.items.reduce((x, item) => {
+        const product = productsStore.productById(item.id);
+        return product?.price ? product.price * item.count + x : x;
+      }, 0);
     },
   },
   actions: {
