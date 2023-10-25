@@ -5,10 +5,13 @@ import ProductCard from "@/components/ProductCard.vue";
 import { useProductsStore } from "@/stores/ProductsStore";
 import { useCartStore } from "@/stores/CartStore";
 import { storeToRefs } from "pinia";
-// const productsStore=useProductsStore();
-const { products } = storeToRefs(useProductsStore());
-const { fill } = useProductsStore();
+ const productsStore=useProductsStore();
+const { products } = storeToRefs(productsStore);
+const { fill } = productsStore;
 const { addItem } = useCartStore();
+
+// fill().then((loading.value = false));
+
 setTimeout(() => {
   fill();
 }, 500);

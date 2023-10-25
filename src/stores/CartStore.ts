@@ -7,9 +7,17 @@ export const useCartStore = defineStore("CartStore", {
       items: [] as CartItem[],
     };
   },
-  getters: {},
+  getters: {
+    count: (state) => {
+      return state.items.reduce((x, item) => x + item.count, 0);
+    },
+    isEmpty(): boolean {
+      return this.count === 0;
+    },
+  },
   actions: {
     addItem(itemId: string, count: number) {
+      if (!count) return;
       const item = this.items.find((item) => item.id === itemId);
       if (item) {
         item.count += count;
